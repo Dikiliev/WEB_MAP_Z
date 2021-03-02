@@ -3,12 +3,12 @@ import requests
 import sys
 
 
-def get_img(coordinate, scale):
+def get_img(coordinate_, scale_, type_map_='sat'):
 
     map_params = {
-        "ll": f'{coordinate[0]},{coordinate[1]}',
-        "spn": f'{scale[0]},{scale[1]}',
-        "l": "skl",
+        "ll": f'{coordinate_[0]},{coordinate_[1]}',
+        "spn": f'{scale_[0]},{scale_[1]}',
+        "l": type_map_,
     }
 
     map_api_server = "http://static-maps.yandex.ru/1.x/"
@@ -29,7 +29,8 @@ clock = pygame.time.Clock()
 coordinate = [37.588392, 55.734036]
 scale = 0.005
 
-type_map = ['map', 'sat', 'skl']
+type_maps = ['map', 'sat', 'sat,skl']
+type_map = 'map'
 
 
 while running:
@@ -52,7 +53,14 @@ while running:
             elif event.key == pygame.K_LEFT:
                 coordinate[0] -= scale / 10
 
-    get_img(coordinate, (scale, scale))
+            elif event.key == pygame.K_1:
+                type_map = type_maps[0]
+            elif event.key == pygame.K_2:
+                type_map = type_maps[1]
+            elif event.key == pygame.K_3:
+                type_map = type_maps[2]
+
+    get_img(coordinate, (scale, scale), type_map)
     screen.blit(pygame.image.load('map.png'), (0, 0))
 
     pygame.display.flip()
